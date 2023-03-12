@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Tambah User</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- include summernote css -->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 </head>
 
@@ -180,8 +181,22 @@
                                 </div>
                                 @enderror
                             </div>
-                            
 
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select name="status" class="form-control" required>
+                                    <option value="1" >Aktif</option>
+                                    <option value="0" >Tidak Aktif</option>
+                                </select>
+
+                                <!-- error message untuk role -->
+                                @error('status')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            
                             <button type="submit" class="btn btn-md btn-primary">Save</button>
                             <a href="{{ route('user.index') }}" class="btn btn-md btn-secondary">back</a>
 

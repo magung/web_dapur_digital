@@ -7,7 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Edit User</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css">
     <!-- include summernote css -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 </head>
@@ -23,20 +26,21 @@
 
                 <!-- Notifikasi menggunakan flash session data -->
                 @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
                 @endif
 
                 @if (session('error'))
-                <div class="alert alert-error">
-                    {{ session('error') }}
-                </div>
+                    <div class="alert alert-error">
+                        {{ session('error') }}
+                    </div>
                 @endif
 
                 <div class="card border-0 shadow rounded">
                     <div class="card-body">
-                        <form action="{{ route('user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('user.update', $user->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -47,9 +51,9 @@
 
                                 <!-- error message untuk user -->
                                 @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
@@ -60,9 +64,9 @@
 
                                 <!-- error message untuk email -->
                                 @error('email')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
@@ -73,118 +77,137 @@
 
                                 <!-- error message untuk phone_number -->
                                 @error('phone_number')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="gender">Jenis Kelamin</label>
                                 <select name="gender" class="form-control" required>
-                                    <option value="Laki - Laki" {{$user->gender == 'Laki - Laki' ? 'selected' : ''}}>Laki - Laki</option>
-                                    <option value="Perempuan" {{$user->gender == 'Perempuan' ? 'selected' : ''}}>Perempuan</option>
+                                    <option value="Laki - Laki" {{ $user->gender == 'Laki - Laki' ? 'selected' : '' }}>
+                                        Laki - Laki</option>
+                                    <option value="Perempuan" {{ $user->gender == 'Perempuan' ? 'selected' : '' }}>
+                                        Perempuan</option>
                                 </select>
 
                                 <!-- error message untuk role -->
                                 @error('gender')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="role_id">Role Level</label>
                                 <select name="role_id" class="form-control" required>
-                                    <option value="" >-- role level --</option>
+                                    <option value="">-- role level --</option>
                                     @foreach ($roles as $role)
-                                        <option value="{{$role->id}}" {{$user->role_id ==  $role->id ? 'selected' : ''}}>{{$role->role_name}}</option>
+                                        <option value="{{ $role->id }}"
+                                            {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                                            {{ $role->role_name }}</option>
                                     @endforeach
                                 </select>
 
                                 <!-- error message untuk role -->
                                 @error('role_id')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="address">Alamat</label>
-                                <textarea
-                                    name="address" id="address"
-                                    class="form-control @error('address') is-invalid @enderror"
-                                    rows="5"
+                                <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror" rows="5"
                                     required>{{ old('address', $user->address) }}</textarea>
 
                                 <!-- error message untuk address -->
                                 @error('address')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="store_id">Toko</label>
-                                <select name="store_id" class="form-control" required>
-                                    <option value="" >-- Toko --</option>
+                                <select name="store_id" class="form-control" >
+                                    <option value="">-- Toko --</option>
                                     @foreach ($stores as $store)
-                                        <option value="{{$store->id}}" {{$user->store_id == $store->id ? 'selected' : ''}} >{{$store->branch_name}}</option>
+                                        <option value="{{ $store->id }}"
+                                            {{ $user->store_id == $store->id ? 'selected' : '' }}>
+                                            {{ $store->branch_name }}</option>
                                     @endforeach
                                 </select>
 
                                 <!-- error message untuk role -->
                                 @error('store_id')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="birthday">Tanggal Lahir</label>
                                 <input type="date" class="form-control @error('birthday') is-invalid @enderror"
-                                    name="birthday" value="{{ old('birthday', $user->birthday) }}" >
+                                    name="birthday" value="{{ old('birthday', $user->birthday) }}">
                                 <!-- error message untuk role -->
                                 @error('birthday')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                    name="password" value="{{ old('password') }}" >
+                                    name="password" value="{{ old('password') }}">
 
                                 <!-- error message untuk password -->
                                 @error('password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="photo">Foto User</label>
                                 <input type="file" class="form-control @error('photo') is-invalid @enderror"
-                                    name="photo" value="{{ old('photo') }}" >
+                                    name="photo" value="{{ old('photo') }}">
 
                                 <!-- error message untuk photo -->
                                 @error('photo')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
 
-                                <img src="/uploads/{{$user->photo}}" alt="" width="200">
+                                <img src="{{ route('image', $user->photo) }}" alt="" width="200">
                             </div>
 
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select name="status" class="form-control" required>
+                                    <option value="1" {{ $user->status == '1' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="0" {{ $user->status == '0' ? 'selected' : '' }}>Tidak Aktif
+                                    </option>
+                                </select>
 
+                                <!-- error message untuk role -->
+                                @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <br>
                             <button type="submit" class="btn btn-md btn-primary">Update</button>
                             <a href="{{ route('user.index') }}" class="btn btn-md btn-secondary">back</a>
                         </form>

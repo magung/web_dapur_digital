@@ -18,6 +18,12 @@
         <h1 class="display-4">
             Detail Transaksi
         </h1>
+        @if ($role_id != 4)
+            <a href="" class="btn btn-sm btn-success">PRINT STRUK</a>
+            <a href="" class="btn btn-sm btn-primary">PRINT PDF</a>
+            <br>
+            <br>
+        @endif
         <div class="row">
             <div class="col-md-12">
 
@@ -39,10 +45,8 @@
                         <form >
                             @csrf
                             @method('PUT')
-
                             <div class="">
                                 <label for="">List Produk</label><br>
-                                
                                 <table class="table table-bordered mt-1">
                                     <thead>
                                         <tr>
@@ -74,8 +78,8 @@
                                                     @endif
                                                 </td>
                                                 <td>{{$product->qty}}</td>
-                                                <td>{{$product->price}}</td>
-                                                <td>{{$product->total_price}}</td>
+                                                <td>Rp. {{number_format($product->price)}}</td>
+                                                <td>Rp. {{number_format($product->total_price)}}</td>
                                             </tr>
                                             @php
                                                 $no++;
@@ -94,7 +98,7 @@
                                 <select name="store_id" class="form-control" required readonly>
                                     <option value="" >-- Toko --</option>
                                     @foreach ($stores as $store)
-                                        <option value="{{$store->id}}" {{$store_id == $store->id ? 'selected' : ''}} >{{$store->branch_name}}</option>
+                                        <option value="{{$store->id}}" {{$transaction->store_id == $store->id ? 'selected' : ''}} >{{$store->branch_name}}</option>
                                     @endforeach
                                 </select>
                                 <!-- error message untuk role -->
@@ -196,12 +200,17 @@
                             <div class="form-group">
                                 <label for="file">File Cetak</label>
                                 <br>
-                                <a href="{{ route('download', $transaction->file) }}" download target="blank" class="btn btn-sm btn-danger">Download</a> {{$transaction->file}}
+                                @if ($transaction->file)
+                                    <a href="{{ route('download', $transaction->file) }}" download target="blank" class="btn btn-sm btn-danger">Download</a> {{$transaction->file}}
+                                @else
+                                    <p>File Tidak Ada</p>
+                                @endif
                                 
                             </div>
 
                             
                             <a href="{{ route('transaction.index') }}" class="btn btn-md btn-secondary">back</a>
+                            
                         </form>
                     </div>
                 </div>

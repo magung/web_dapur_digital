@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         $users = User::latest()
                 ->join('roles', 'roles.id', '=', 'users.role_id')
-                ->join('stores', 'stores.id', '=', 'users.store_id')
+                ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
                 ->select('users.*', 'roles.role_name', 'stores.branch_name')
                 ->get();
         return view('user.index', compact('users'));
@@ -31,13 +31,14 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name'          => 'required',
-            'email'         => 'required',
+            'email'         => 'required|unique:users,email',
             'password'      => 'required',
             'role_id'       => 'required',
             'phone_number'  => 'required',
             'gender'        => 'required',
             // 'birthday'   => 'required',
             'address'       => 'required',
+            'status'       => 'required',
             'photo'         => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -55,6 +56,7 @@ class UserController extends Controller
             'gender'        => $request->gender,
             'birthday'      => $request->birthday,
             'address'       => $request->address,
+            'status'       => $request->status,
             'store_id'      => $request->store_id,
             'photo'         => $photo,
         ]);
@@ -91,7 +93,8 @@ class UserController extends Controller
             'role_id'       => 'required',
             'phone_number'  => 'required',
             'gender'        => 'required',
-            'address'       => 'required'
+            'address'       => 'required',
+            'status'       => 'required'
         ]);
 
         $datasend = [
@@ -103,6 +106,7 @@ class UserController extends Controller
             'birthday'      => $request->birthday,
             'address'       => $request->address,
             'store_id'      => $request->store_id,
+            'status'       => $request->status,
         ];
         $user = User::findOrFail($id);
         

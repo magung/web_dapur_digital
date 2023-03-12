@@ -113,7 +113,7 @@
                                 </div>
                                 @enderror
 
-                                <img src="/uploads/{{$product->photo}}" alt="" width="200">
+                                <img src="{{ route('image', $product->photo) }}" alt="" width="200">
                             </div>
 
                             <button type="submit" class="btn btn-md btn-primary">Update</button>

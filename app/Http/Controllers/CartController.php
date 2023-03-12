@@ -52,16 +52,16 @@ class CartController extends Controller
         }
         if ($cart) {
             return redirect()
-                ->route('product-list.index')
+                ->route('dashboard')
                 ->with([
-                    'success' => 'New Cart has been created successfully'
+                    'success' => 'Produk berhasil ditambahkan ke keranjang'
                 ]);
         } else {
             return redirect()
                 ->back()
                 ->withInput()
                 ->with([
-                    'error' => 'Some problem occurred, please try again'
+                    'error' => 'Produk gagal ditambahkan ke keranjang'
                 ]);
         }
     }

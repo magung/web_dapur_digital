@@ -95,7 +95,7 @@
 
                             <div class="form-group">
                                 <label for="store_id">Toko</label>
-                                <select name="store_id" class="form-control" required readonly>
+                                <select name="store_id" class="form-control" required>
                                     <option value="" >-- Toko --</option>
                                     @foreach ($stores as $store)
                                         <option value="{{$store->id}}" {{$store_id == $store->id ? 'selected' : ''}} >{{$store->branch_name}}</option>

@@ -19,13 +19,16 @@ use Illuminate\Support\Facades\Route;
 
 $ctrl = '\App\Http\Controllers';
 Route::get('login',$ctrl.'\LoginController@view')->name('login');
+Route::get('register',$ctrl.'\RegisterController@view')->name('register');
 Route::post('login',$ctrl.'\LoginController@authenticate')->name('login.auth');
-Route::middleware('auth')->get('/', function() {
+Route::post('register',$ctrl.'\RegisterController@register')->name('register.register');
+Route::get('/', function() {
     return redirect()->intended('dashboard');
 })->name('dashboard');
-Route::post('logout',$ctrl.'\LoginController@logout')->name('logout');
-Route::middleware('auth')->get('dashboard',$ctrl.'\DashboardController@view')->name('dashboard');
 
+
+Route::post('logout',$ctrl.'\LoginController@logout')->name('logout');
+Route::get('dashboard',$ctrl.'\DashboardController@view')->name('dashboard');
 Route::middleware('auth')->get('store',$ctrl.'\StoreController@index')->name('store.index');
 Route::middleware('auth')->post('store',$ctrl.'\StoreController@store')->name('store.store');
 Route::middleware('auth')->get('store/create',$ctrl.'\StoreController@create')->name('store.create');
@@ -98,6 +101,7 @@ Route::middleware('auth')->put('transaction-product/{id}',$ctrl.'\TransactionCon
 Route::middleware('auth')->put('transaction/{id}',$ctrl.'\TransactionController@update')->name('transaction.update');
 Route::middleware('auth')->delete('transaction/{id}',$ctrl.'\TransactionController@destroy')->name('transaction.destroy');
 Route::middleware('auth')->get('transaction/detail/{id}',$ctrl.'\TransactionController@detail')->name('transaction.detail');
+Route::middleware('auth')->get('transaction/payment/{id}',$ctrl.'\TransactionController@pembayaran')->name('transaction.pembayaran');
 Route::middleware('auth')->get('transaction/{id}',$ctrl.'\TransactionController@edit')->name('transaction.edit');
 
 Route::middleware('auth')->get('cart/create',$ctrl.'\CartController@create')->name('cart.create');
@@ -116,7 +120,10 @@ Route::middleware('auth')->get('add-to-cart/{id}',$ctrl.'\CartController@addToCa
 Route::middleware('auth')->get('cart-list',$ctrl.'\TransactionController@createTransacationPelanggan')->name('cart.list');
 Route::middleware('auth')->post('transaction',$ctrl.'\TransactionController@store')->name('transaction.store');
 Route::middleware('auth')->put('update-cart/{id}',$ctrl.'\CartController@updatePelanggan')->name('cart.list.update');
-Route::middleware('auth')->get('transaction-list', $ctrl . '\TransactionController@indexPelanggan')->name('transaction-list');
+Route::middleware('auth')->get('transaction-list', $ctrl . '\TransactionController@index')->name('transaction-list');
 Route::middleware('auth')->post('transaction.pelanggan.store',$ctrl.'\TransactionController@storePelanggan')->name('transaction.pelanggan.store');
 
 Route::middleware('auth')->get('report',$ctrl.'\ReportController@index')->name('report.index');
+
+Route::middleware('auth')->get('image/{file}',$ctrl.'\DashboardController@image')->name('image');
+

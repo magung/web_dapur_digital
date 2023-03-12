@@ -25,8 +25,9 @@ class TransactionController extends Controller
     {
         $user = Auth::user();
         $transactions = TransactionList::latest()
-                        ->select('transaction_lists.*', 'transaction_statuses.status', 'users.name', 'users.email')
+                        ->select('transaction_lists.*', 'transaction_statuses.status', 'users.name', 'users.email', 'payment_statuses.payment_status')
                         ->join('transaction_statuses', 'transaction_statuses.id', '=', 'transaction_lists.transaction_status_id')
+                        ->join('payment_statuses', 'payment_statuses.id', '=', 'transaction_lists.payment_status_id')
                         ->leftJoin('users', 'users.id', '=', 'transaction_lists.user_id')
                         ->get();
         foreach($transactions as $transaction) {
@@ -329,9 +330,20 @@ class TransactionController extends Controller
         ));
     }
 
+
+    public function pembayaran($id)
+    {
+        $payments = Payment::latest()->get();
+        $statuses = TransactionStatus::latest()->get();
+        $types = TransactionType::latest()->get();
+        $transaction = TransactionList::findOrFail($id);
+        return view('transaction.pembayaran', compact('transaction', 'payments', 'types'));
+    }
+
     public function detail($id)
     {
         $user = Auth::user();
+        $role_id = $user->role_id;
         $store_id = $user->store_id;
         $users = User::latest()->where('role_id', 4)->get();
         $payments = Payment::latest()->get();
@@ -360,7 +372,8 @@ class TransactionController extends Controller
             'payment_statuses',
             'store_id',
             'transaction_product_lists',
-            'total_harga'
+            'total_harga',
+            'role_id'
         ));
     }
     

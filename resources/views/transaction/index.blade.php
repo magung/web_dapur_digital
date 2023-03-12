@@ -75,8 +75,15 @@
                                         @endforelse
                                         
                                     </td>
-                                    <td>{{ $transaction->final_price }}</td>
-                                    <td>{{ $transaction->status }}</td>
+                                    <td>Rp. {{ number_format($transaction->final_price) }}</td>
+                                    <td>
+                                        {{ $transaction->status }}
+                                        <br>
+                                        <b>Status Pembayaran</b>
+                                        <br>
+                                        {{$transaction->payment_status}}
+
+                                    </td>
                                     <td class="text-center">
                                         @if ($user->role_id != 4)
                                         <form onsubmit="return confirm('Apakah Anda Yakin ?');"
@@ -93,6 +100,11 @@
                                         @if ($user->role_id == 4)
                                         <a href="{{ route('transaction.detail', $transaction->id) }}"
                                             class="btn btn-sm btn-warning">DETAIL</a>
+                                            @if ($transaction->payment_status != 'LUNAS')
+                                            <br>
+                                            <a href="{{ route('transaction.pembayaran', $transaction->id) }}"
+                                                class="btn btn-sm btn-primary">PEMBAYARAN</a>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

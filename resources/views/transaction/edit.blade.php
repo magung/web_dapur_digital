@@ -75,8 +75,8 @@
                                                     @endif
                                                 </td>
                                                 <td>{{$product->qty}}</td>
-                                                <td>{{$product->price}}</td>
-                                                <td>{{$product->total_price}}</td>
+                                                <td>Rp. {{number_format($product->price)}}</td>
+                                                <td>Rp. {{number_format($product->total_price)}}</td>
                                                 <td class="text-center">
                                                     <a href="{{ route('transaction.product.edit', $product->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                                     <a href="{{route('transaction.product.destroy', $product->id) }}" class="btn btn-sm btn-danger">HAPUS</a>
