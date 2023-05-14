@@ -19,7 +19,7 @@
             Detail Transaksi
         </h1>
         @if ($role_id != 4)
-            <a href="" class="btn btn-sm btn-success">PRINT STRUK</a>
+            <a href="{{ route('print.struk') }}" class="btn btn-sm btn-success">PRINT STRUK</a>
             <a href="" class="btn btn-sm btn-primary">PRINT PDF</a>
             <br>
             <br>

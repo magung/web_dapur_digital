@@ -127,3 +127,4 @@ Route::middleware('auth')->get('report',$ctrl.'\ReportController@index')->name('
 
 Route::middleware('auth')->get('image/{file}',$ctrl.'\DashboardController@image')->name('image');
 
+Route::middleware('auth')->get('print-struk',$ctrl.'\PrintController@printStruk')->name('print.struk');
